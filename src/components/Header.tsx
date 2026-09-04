@@ -1,0 +1,7 @@
+"use client";
+import { Menu, X, Phone, ArrowUpRight } from "lucide-react";
+import { useState } from "react";
+import { useLeadModal } from "./LeadModalContext";
+import { PHONE_DISPLAY, PHONE_TEL, hasPhone, SITE_NAME } from "@/lib/site";
+const nav = [["Solutions","#solutions"],["Process","#process"],["Stories","#stories"],["Insights","/insights"],["FAQ","#faq"]] as const;
+export default function Header(){const [open,setOpen]=useState(false); const lead=useLeadModal(); return <><header className="site-header"><div className="site-wrap header-inner"><a href="/#top" className="brand-mark" aria-label={SITE_NAME}>{<>REVIVE <span style={{color:"var(--accent)"}}>MCA</span></>}</a><nav className="desktop-nav">{nav.map(([l,h])=><a key={h} href={h}>{l}</a>)}</nav><div className="header-actions">{hasPhone&&<a className="header-phone" href={`tel:${PHONE_TEL}`}><Phone size={15}/>{PHONE_DISPLAY}</a>}<button onClick={lead} className="primary-pill">Request a private review <ArrowUpRight size={15}/></button><button aria-label="Menu" className="menu-button" onClick={()=>setOpen(v=>!v)}>{open?<X/>:<Menu/>}</button></div></div>{open&&<div className="mobile-menu site-wrap">{nav.map(([l,h])=><a onClick={()=>setOpen(false)} key={h} href={h}>{l}</a>)}</div>}</header><div className="mobile-conversion">{hasPhone&&<a href={`tel:${PHONE_TEL}`}>Call</a>}<button onClick={lead}>Request a private review</button></div></>;}
