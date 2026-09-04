@@ -1,17 +1,85 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
-import { ArrowRight, Check, FileSearch, Layers3, MessagesSquare, ShieldCheck, Sparkles, TrendingDown, UserRoundCheck, BriefcaseBusiness, Quote, BookOpenText } from "lucide-react";
-import QuickQualifier from "./QuickQualifier"; import { useLeadModal } from "./LeadModalContext";
-const reviews=[
-{name:"Restaurant owner",role:"Hospitality",image:"https://images.pexels.com/photos/34164499/pexels-photo-34164499.jpeg?auto=compress&cs=tinysrgb&w=1200",quote:"The first conversation felt organized. I finally had one place to explain what the daily withdrawals were doing to the business."},
-{name:"Operations owner",role:"Transportation",image:"https://images.pexels.com/photos/11114134/pexels-photo-11114134.jpeg?auto=compress&cs=tinysrgb&w=1200",quote:"They focused on the actual payment structure and cash flow instead of making a flashy promise before seeing the facts."},
-{name:"Practice owner",role:"Healthcare",image:"https://images.pexels.com/photos/7108403/pexels-photo-7108403.jpeg?auto=compress&cs=tinysrgb&w=1200",quote:"The process gave me a clearer list of questions and documents before I made another financing decision."}];
-const steps=[['01','Map the pressure','Share the payment cadence, active positions, and what is getting squeezed.'],['02','Review the business','Organize agreements, cash flow, and the decisions that are becoming urgent.'],['03','Build a path','Identify realistic options and tradeoffs without a generic savings promise.'],['04','Move with clarity','If you choose to proceed, keep communication and next steps organized.']];
-export default function SiteHome({onContinue}:{onContinue:(a:string,b:string)=>void}){const lead=useLeadModal(); const ref=useRef<HTMLDivElement>(null); const [show,setShow]=useState(false); useEffect(()=>{const n=ref.current;if(!n)return;const o=new IntersectionObserver(([e])=>{if(e.isIntersecting){setShow(true);o.disconnect()}},{threshold:.18});o.observe(n);return()=>o.disconnect()},[]);return <>
-<section id="top" className="revive-hero"><div className="site-wrap revive-hero-grid"><div className="revive-copy"><span className="hero-badge">Clarity before commitment</span><h1>A stronger way forward when <em>MCA payments</em> strain the business.</h1><p>Private, business-focused support for owners who want to understand their options before cash-flow pressure starts making every decision for them.</p><div className="hero-actions"><button onClick={lead} className="hero-primary">Request a private review <ArrowRight/></button><a href="#process">See the process</a></div><div className="hero-trust"><span><Check/>Business-only focus</span><span><Check/>Private intake</span><span><Check/>No guaranteed outcomes</span></div></div><div className="revive-visual"><div className="image-frame"><img src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Business owner reviewing finances"/><div className="image-note"><ShieldCheck/><div><strong>Confidential by design</strong><span>Start with only what you are comfortable sharing.</span></div></div></div><QuickQualifier onContinue={onContinue}/></div></div></section>
-<section id="solutions" className="revive-solutions"><div className="site-wrap"><div className="split-heading"><div><span className="eyebrow">Business situations</span><h2>Support built around the operating reality, not a generic pitch.</h2></div><p>Merchant cash advance pressure can show up differently in every company. The site experience helps visitors recognize the problem before asking them for information.</p></div><div className="solution-grid"><article><TrendingDown/><h3>Payment pressure</h3><p>Daily or weekly withdrawals are competing with payroll, inventory, rent, or taxes.</p></article><article><Layers3/><h3>Stacked positions</h3><p>Multiple obligations are drawing from the same revenue and need to be mapped together.</p></article><article><MessagesSquare/><h3>Collection activity</h3><p>Calls and notices are consuming attention while the operating business still needs to run.</p></article><article><FileSearch/><h3>Agreement questions</h3><p>Owners need a clearer view of documents, payment mechanics, and what to ask next.</p></article></div></div></section>
-<section id="process" className="revive-process"><div className="site-wrap"><span className="eyebrow">A visible process</span><h2>From pressure to a decision, one clear step at a time.</h2><div ref={ref} className={`journey ${show?'journey-visible':''}`}>{steps.map((s,i)=><div className="journey-step" key={s[0]}><span className="journey-num">{s[0]}</span><div className="journey-line"><i/></div><h3>{s[1]}</h3><p>{s[2]}</p></div>)}</div></div></section>
-<section id="stories" className="revive-stories"><div className="site-wrap"><div className="split-heading"><div><span className="eyebrow">Business-owner perspective</span><h2>Stories should feel human, not manufactured.</h2></div><p>These are staging testimonial layouts using sample copy and imagery. Replace with client-approved reviews before production.</p></div><div className="portrait-reviews">{reviews.map(r=><article key={r.role}><img src={r.image} alt="Business owner"/><div><Quote/><p>“{r.quote}”</p><strong>{r.name}</strong><span>{r.role} · sample review</span></div></article>)}</div></div></section>
-<section className="revive-insights"><div className="site-wrap insight-band"><div><BookOpenText/><span className="eyebrow">Insights & resources</span><h2>Build trust before asking for a phone number.</h2><p>Educational content gives the brand substance, improves SEO depth, and gives returning visitors a reason to come back.</p></div><a href="/insights">Explore the resource center <ArrowRight/></a></div></section>
-<section id="faq" className="faq-section"><div className="site-wrap faq-grid"><div><span className="eyebrow">Questions</span><h2>Clear answers without overpromising.</h2></div><div className="faq-list">{[['Is this consumer debt relief?','No. The site is positioned for business-purpose obligations and merchant cash advance issues.'],['Do you guarantee a payment reduction or settlement?','No. Any change depends on the agreements, the business facts, creditor participation, and applicable law.'],['What do I need to submit?','Name and phone are the only required contact details. Other business information is optional.']].map(([q,a])=><details key={q}><summary>{q}</summary><p>{a}</p></details>)}</div></div></section>
-</>}
+
+import { ArrowRight, BookOpenText, Check, FileSearch, Layers3, MessagesSquare, Quote, ShieldCheck, TrendingDown } from "lucide-react";
+import InlineLeadCapture from "./InlineLeadCapture";
+import { useLeadModal } from "./LeadModalContext";
+
+const reviews = [
+  { name: "Restaurant owner", role: "Hospitality · sample review", image: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=800", quote: "The conversation was direct and practical. I could explain the payment pressure without feeling pushed into another decision." },
+  { name: "Operations owner", role: "Transportation · sample review", image: "https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=800", quote: "They focused on the actual operating problem first, not a flashy percentage or promise." },
+  { name: "Practice owner", role: "Healthcare · sample review", image: "https://images.pexels.com/photos/5327585/pexels-photo-5327585.jpeg?auto=compress&cs=tinysrgb&w=800", quote: "I left the first review with a clearer list of questions and a better sense of what to prepare next." },
+];
+
+const steps = [
+  ["01", "Describe the pressure", "Tell us what the withdrawals are doing to the operating day."],
+  ["02", "Map the obligations", "Organize active positions, cadence, balances, and immediate priorities."],
+  ["03", "Review realistic paths", "Compare options and tradeoffs without a generic savings promise."],
+  ["04", "Move with a plan", "If you choose to proceed, keep the communication and next steps organized."],
+];
+
+export default function SiteHome({ onContinue: _onContinue }: { onContinue: (a:string,b:string)=>void }) {
+  const openLead = useLeadModal();
+  return <>
+    <section id="top" className="rv2-hero">
+      <div className="rv2-hero-bg" />
+      <div className="site-wrap rv2-hero-grid">
+        <div className="rv2-copy">
+          <span className="rv2-kicker">Business pressure deserves a business response.</span>
+          <h1>Reclaim room to run your business.</h1>
+          <p>Revive MCA helps owners organize merchant cash advance pressure, understand the operating impact, and prepare for a more informed conversation about next steps.</p>
+          <div className="rv2-actions">
+            <button onClick={openLead}>Speak with a specialist <ArrowRight /></button>
+            <a href="#rv2-process">See the process</a>
+          </div>
+          <div className="rv2-proof">
+            <span><ShieldCheck /> Confidential intake</span>
+            <span><Check /> Business-purpose focus</span>
+            <span><Check /> No outcome guarantees</span>
+          </div>
+        </div>
+        <div className="rv2-form-wrap">
+          <InlineLeadCapture title="Get a free, confidential review" button="Request my review" />
+        </div>
+      </div>
+      <div className="site-wrap rv2-signal-row">
+        <div><strong>Daily pressure</strong><span>Understand what is being squeezed first.</span></div>
+        <div><strong>Stacked positions</strong><span>Look at the combined burden, not isolated payments.</span></div>
+        <div><strong>Operating priorities</strong><span>Keep payroll, inventory, rent, and vendors visible.</span></div>
+        <div><strong>Clear next step</strong><span>Move from reaction to an organized review.</span></div>
+      </div>
+    </section>
+
+    <section id="solutions" className="rv2-solutions">
+      <div className="site-wrap">
+        <div className="rv2-editorial-head">
+          <span>WHAT OWNERS ARE TRYING TO SOLVE</span>
+          <h2>Fix the pressure point before it starts running the company.</h2>
+        </div>
+        <div className="rv2-editorial-grid">
+          <article className="rv2-feature"><TrendingDown/><small>01</small><h3>Payment pressure</h3><p>Daily or weekly withdrawals are competing with payroll, inventory, taxes, rent, and vendor commitments.</p></article>
+          <article><Layers3/><small>02</small><h3>Stacked advances</h3><p>Several positions are drawing from the same revenue, making the real weekly burden harder to see.</p></article>
+          <article><MessagesSquare/><small>03</small><h3>Collection activity</h3><p>Calls, notices, and escalation are taking attention away from operating the business.</p></article>
+          <article><FileSearch/><small>04</small><h3>Agreement questions</h3><p>Owners need a clearer view of documents, payment mechanics, and what questions to ask next.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="rv2-process" className="rv2-process">
+      <div className="site-wrap rv2-process-layout">
+        <div className="rv2-process-intro"><span>HOW IT WORKS</span><h2>A visible path from pressure to a decision.</h2><p>The experience is intentionally simple on mobile: understand the issue, share only what is necessary, then let a real person take the conversation forward.</p></div>
+        <div className="rv2-rail">{steps.map((s)=><article key={s[0]}><span>{s[0]}</span><div><h3>{s[1]}</h3><p>{s[2]}</p></div></article>)}</div>
+      </div>
+    </section>
+
+    <section id="stories" className="rv2-stories">
+      <div className="site-wrap">
+        <div className="rv2-section-title"><span>BUSINESS-OWNER PERSPECTIVE</span><h2>Trust should feel human.</h2><p>Staging review layouts below are placeholders and should be replaced with client-approved testimonials before production.</p></div>
+        <div className="rv2-review-grid">{reviews.map((r)=><article key={r.name}><img src={r.image} alt="Business owner"/><div><Quote/><p>“{r.quote}”</p><strong>{r.name}</strong><span>{r.role}</span></div></article>)}</div>
+      </div>
+    </section>
+
+    <section className="rv2-insights">
+      <div className="site-wrap rv2-insight-card"><BookOpenText/><div><span>INSIGHTS & RESOURCES</span><h2>Useful answers before the sales conversation.</h2><p>Educational content builds search visibility and gives skeptical visitors a reason to trust the brand before they share contact information.</p></div><a href="/insights">Explore resources <ArrowRight/></a></div>
+    </section>
+  </>;
+}
